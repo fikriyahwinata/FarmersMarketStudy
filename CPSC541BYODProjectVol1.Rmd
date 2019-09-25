@@ -1,0 +1,260 @@
+---
+title: "CPSC541BYODProjectVol1"
+author: "Fikriyah Winata"
+date: "9/22/2019"
+output: html_document
+---
+
+```{r}
+##Install packages needed for this project
+install.packages("dplyr", repos = "http://cran.us.r-project.org")
+install.packages("tidyr", repos = "http://cran.us.r-project.org")
+install.packages("corrplot", repos = "http://cran.us.r-project.org")
+install.packages("PerformanceAnalytics", repos = "http://cran.us.r-project.org")
+
+library(dplyr)
+library(tidyr)
+library(corrplot)
+library(PerformanceAnalytics)
+
+```
+
+```{r}
+setwd("C:/Winata/PhD/5_Fall2019/CPSC541 - Regression Analysis/BYODProject/CPSC541BYODProject/CPSC541BYODProject")
+
+df = read.csv("BYODProjectDataVol1.csv")
+
+#Visualize pairwise plots of all variables
+pairs(df [ ,7:11])
+
+```
+
+```{r}
+#Correlation between the variables
+cor(df[ ,7:11], use = "complete.obs")
+
+```
+
+```{r}
+#Visualize the correlations between the variables
+corrplot(cor(df[ ,7:11]))
+
+```
+
+```{r}
+
+#Visualize correlation with PerformanceAnalytics package
+chart.Correlation(df[ ,7:11], histogram = TRUE, pch = 19)
+
+
+```
+
+```{r}
+#Install ggplot2
+install.packages("ggplot2", repos = "http://cran.us.r-project.org")
+
+```
+
+```{r}
+
+#Fit a model
+fit_linear1 = lm(df$FarmMarket~df$PercentOb16+df$FoodEnvInd+df$IncoRatio16+df$PerChildPov16)
+summary(fit_linear1)
+
+
+```
+
+```{r}
+#Create Boxplot for each variable
+boxplot(df[,8]~df[,7], col = "yellow", 
+        ylab = "Percent of adult obesity", main = "Farmers market vs adult obesity in the United States by County", xlab = "Number of farmers market")
+
+```
+
+```{r}
+
+#Create Boxplot for Farmers market
+boxplot(df[,7], col = "orange", main = "Farmers markets", ylab = "Number of farmers market")
+
+
+```
+
+```{r}
+
+#Create Boxplot for Adult obesity
+boxplot(df[,8], col = "orange", main = "Adult Obesity", ylab = "Percent of Adult Obesity")
+
+
+```
+
+
+```{r}
+#Create Boxplot for Food Environment Index
+boxplot(df[,9], col = "orange", main = "Food Environment Index", ylab = "Food Environment Index")
+```
+
+```{r}
+#Create Boxplot for Income Ratio
+boxplot(df[,10], col = "orange", main = "Income Ratio", ylab = "Income Ratio")
+```
+
+```{r}
+#Create Boxplot for Percent of Children in Poverty
+boxplot(df[,11], col = "orange", main = "Percent of Children in Poverty", ylab = "Percent of Children in Poverty")
+
+
+```
+
+```{r}
+#Create QQplot for Farmers market
+qqnorm(df[,7], col = "red", main = "Farmers markets", ylab = "Number of Farmers market")
+qqline(df[,7], col = "black", main = "Farmers markets", ylab = "Number of Farmers market")
+```
+
+```{r}
+#Create QQplot for Adult obesity
+qqnorm(df[,8], col = "red", main = "Adult Obesity", ylab = "Percent of Adult Obesity")
+qqline(df[,8], col = "black", main = "Adult Obesity", ylab = "Percent of Adult Obesity")
+```
+
+```{r}
+#Create QQplot for Food Environment Index
+qqnorm(df[,9], col = "red", main = "Food Environment Index", ylab = "Food Environment Index")
+qqline(df[,9], col = "black", main = "Food Environment Index", ylab = "Food Environment Index")
+
+```
+
+```{r}
+#Create QQlot for Income Ratio
+qqnorm(df[,10], col = "red", main = "Income Ratio", ylab = "Income Ratio")
+qqline(df[,10], col = "black", main = "Income Ratio", ylab = "Income Ratio")
+```
+
+```{r}
+#Create QQplot for Percent of Children in Poverty
+qqnorm(df[,11], col = "red", main = "Percent of Children in Poverty", ylab = "Percent of Children in Poverty")
+qqline(df[,11], col = "black", main = "Percent of Children in Poverty", ylab = "Percent of Children in Poverty")
+```
+
+```{r}
+##Install ggplot2
+install.packages("ggplot2", repos = "http://cran.us.r-project.org")
+library("ggplot2")
+
+#Fit linear between Percent of Adult Obesity and Number of Farmers market
+plotFMOB = ggplot(df, aes(x = df$FarmMarket, y = df$PercentOb16))
+plotFMOB = plotFMOB + geom_point()
+plotFMOB
+
+```
+
+```{r}
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+
+#Fit the model for Percent of Obesity and Number of Farmers Market
+fit_linearFMOB = lm(df$PercentOb16~df$FarmMarket)
+
+#Check the residuals
+linear_resFMOB = df%>%
+  mutate(res = residuals(fit_linearFMOB))%>%
+  mutate(std_res = res/summary(fit_linearFMOB)$sigma)
+test_obj <- summary(fit_linearFMOB)
+str(test_obj)
+
+res_plotFMOB = ggplot(linear_resFMOB, aes(x = predict(fit_linearFMOB), y = std_res))
+res_plotFMOB = res_plotFMOB + geom_point()
+res_plotFMOB
+
+```
+
+```{r}
+qqnorm(residuals(fit_linearFMOB))
+qqline(residuals(fit_linearFMOB))
+
+```
+
+```{r}
+#Get the model estimate
+coef(summary(fit_linearFMOB))
+```
+
+```{r}
+
+#Inference
+confint(fit_linearFMOB)
+
+```
+
+```{r}
+#Fit the model for Percent Adult Obesity and Farmers Market
+fit_linearFMOB = lm(df$PercentOb16~df$FarmMarket)
+summary(fit_linearFMOB)
+```
+
+```{r}
+
+#Fit linear between Number of Farmers market and Food Environmental Index
+plotFMFEI = ggplot(df, aes(x = df$FarmMarket, y = df$FoodEnvInd))
+plotFMFEI = plotFMFEI + geom_point()
+plotFMFEI
+
+```
+
+```{r}
+
+#Fit the model for Food Environment Index and Farmers Market
+fit_linearFMFEI = lm(df$FoodEnvInd~df$FarmMarket)
+summary(fit_linearFMFEI)
+
+```
+
+```{r}
+
+#Fit the model for Food Environment Index and Number of Farmers Market
+fit_linearFMFEI = lm(df$FoodEnvInd~df$FarmMarket)
+
+#Check the residuals
+linear_resFMFEI = df%>%
+  mutate(res = residuals(fit_linearFMFEI))%>%
+  mutate(std_res = res/summary(fit_linearFMFEI)$sigma)
+test_obj2 <- summary(fit_linearFMFEI)
+str(test_obj2)
+
+res_plotFMFEI = ggplot(linear_resFMFEI, aes(x = predict(fit_linearFMFEI), y = std_res))
+res_plotFMFEI = res_plotFMFEI + geom_point()
+res_plotFMFEI
+
+```
+
+```{r}
+qqnorm(residuals(fit_linearFMFEI))
+qqline(residuals(fit_linearFMFEI))
+```
+
+```{r}
+
+#Multiple linear regression
+
+ModelVol1 = lm(df$PercentOb16~df$FarmMarket+df$FoodEnvInd+df$IncoRatio16+df$PerChildPov16)
+summary(ModelVol1)
+```
+
+```{r}
+
+#Multiple linear regression
+
+ModelVol2 = lm(df$FoodEnvInd~df$FarmMarket+df$PercentOb16+df$IncoRatio16+df$PerChildPov16)
+summary(ModelVol2)
+
+```
+
+
+
+
+
+
+
+
+
