@@ -1,0 +1,21 @@
+This metadata was created by Fikriyah Winata on September 21, 2019
+
+This dataset contains locations of farmers market obtained from The United States Department of Agriculture (USDA),
+I downloaded in March 2017, so dataset of locations updated up to March 2017. Health outcomes data gathered from
+the County Health Ranking and Roadmap https://www.countyhealthrankings.org/ also gathered in March 2017. I cleaned
+these two dataset and selected some variables from County Health Ranking and Roadmap for the CPSC541 BYOD project.
+Also, I added some health outcomes data from in 2010, just in case I want to compare with 2016 data.
+
+Field name	Description
+FarmMarket	Number of farmer's marker
+PercentOb10	Percentage of adults that report BMI >= 30 in 2010
+PercentOb16	Percentage of adults that report BMI >= 30 in 2016
+FoodEnvInd	Indicator of access to healthy foods - 0 is worst, 10 is best, thia ind 2016
+PerHealthyFood	Percent healthy food in 2010
+Percentile80	Percentile 80th Income in 2016
+Percentile20	Percentile 20th Income in 2016
+IncoRatio16	Ratio of household income at the 80th percentile to income at the 20th percentile
+IncoIneq10	Income inequality GINI Index in 2010
+NumChildPov16	Number of children (under age 18) living in poverty in 2016
+NumChildPov10	Number of children (under age 18) living in poverty in 2010
+PerChildPov16	Percentage of children (under age 18) living in poverty in 2016
