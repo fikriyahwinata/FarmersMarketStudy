@@ -6,7 +6,7 @@ library(bnlearn)
 library(tidyverse)
 library(foreign)
 
-setwd("C:/Winata/PhD/5_Fall2019/CPSC541 - Regression Analysis/BYODProject/CPSC541BYODProject/CPSC541BYODProject")
+setwd("C:/Winata/PhD/5_Fall2019/CPSC541 - Regression Analysis/BYODProject/CPSC541BYODProject/CPSC541BYODProject") ##Please change the path
 
 df2 = read.csv("BYODProjectDataVol2.csv") ##Use data with present and absent of farmers' markets
 
@@ -41,6 +41,12 @@ pairs()
 
 
 pairs(df2[ ,8:12])
+
+plot(df2$FarMarPresAbs)
+
+
+#Create QQplot for Farmers market
+
 
 
 #Visualize the correlations between the variables
